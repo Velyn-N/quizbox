@@ -1,22 +1,23 @@
 var username = localStorage.getItem("username");
-var webSocket;
+var role = "gamemaster";
+var buzzerSocket;
 
 $(document).ready(function() {
     if (username == undefined) window.location = "/index.html";
 
-    webSocket = new WebSocket("ws://" + location.host + "/quiz/gamemaster/"+ username);
+    buzzerSocket = new WebSocket("ws://" + location.host + "/buzzer/" + role + "/"+ username);
 
-    webSocket.onopen = function () {
+    buzzerSocket.onopen = function () {
         console.log("Connected");
     };
 
-    webSocket.onmessage = function (m) {
+    buzzerSocket.onmessage = function (m) {
         if (m.data.startsWith("[Buzzer]")) {
             buzzerReceived(m);
         }
     };
 
-    $("#subtitle").html("Moderating as <b>" + username + "</b>.");
+    $("#subtitle").html($("#subtitle").html().replace("{username}", username));
 });
 
 function buzzerReceived(message) {

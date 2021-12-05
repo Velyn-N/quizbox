@@ -1,22 +1,23 @@
 var username = localStorage.getItem("username");
-var webSocket;
+var role = "viewer";
+var buzzerSocket;
 
 $(document).ready(function() {
     if (username == undefined) window.location = "/index.html";
 
-    webSocket = new WebSocket("ws://" + location.host + "/quiz/viewer/"+ username);
+    buzzerSocket = new WebSocket("ws://" + location.host + "/buzzer/" + role + "/"+ username);
 
-    webSocket.onopen = function () {
+    buzzerSocket.onopen = function () {
         console.log("Connected");
     };
 
-    webSocket.onmessage = function (m) {
+    buzzerSocket.onmessage = function (m) {
         console.log(m);
     };
 
     $(".buzzer").click(function() {
-        webSocket.send("buzzer");
+        buzzerSocket.send("buzzer");
     });
 
-    $("#subtitle").html("Watching as <b>" + username + "</b>.");
+    $("#subtitle").html($("#subtitle").html().replace("{username}", username));
 });

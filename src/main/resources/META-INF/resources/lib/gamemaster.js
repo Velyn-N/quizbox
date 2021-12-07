@@ -4,6 +4,7 @@ var buzzerSocket;
 
 $(document).ready(function() {
     if (username == undefined) window.location = "/index.html";
+    $("#subtitle").html($("#subtitle").html().replace("{username}", username));
 
     buzzerSocket = new WebSocket("ws://" + location.host + "/buzzer/" + role + "/"+ username);
 
@@ -16,8 +17,6 @@ $(document).ready(function() {
             buzzerReceived(m);
         }
     };
-
-    $("#subtitle").html($("#subtitle").html().replace("{username}", username));
 });
 
 function buzzerReceived(message) {

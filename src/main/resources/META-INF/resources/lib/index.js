@@ -21,13 +21,16 @@ function participate(link) {
 }
 
 $("#joinAsGmBtn").click(function() {
+    localStorage.setItem("role", "gamemaster");
     participate("/gamemaster.html");
 });
 
 $("#joinAsPlayerBtn").click(function() {
+    localStorage.setItem("role", "player");
     participate("/player.html");
 });
 
 $("#joinAsViewerBtn").click(function() {
+    localStorage.setItem("role", "viewer");
     participate("/viewer.html");
 });

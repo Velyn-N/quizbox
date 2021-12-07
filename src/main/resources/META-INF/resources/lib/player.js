@@ -1,30 +1,26 @@
 var username = localStorage.getItem("username");
-var buzzerSocket;
-var role = "player";
+var role = localStorage.getItem("role");
+var webSocket;
 
 $(document).ready(function() {
     if (username == undefined) window.location = "/index.html";
+    $("#subtitle").html($("#subtitle").html().replace("{username}", username));
 
-    buzzerSocket = new WebSocket("ws://" + location.host + "/buzzer/" + role + "/"+ username);
+    webSocket = new WebSocket("ws://" + location.host + "/buzzer/" + role + "/"+ username);
 
-    buzzerSocket.onopen = function () {
+    webSocket.onopen = function () {
         console.log("Connected");
     };
 
-    buzzerSocket.onmessage = function (m) {
-        if (m.data.startsWith("[Buzzer]")) {
-            buzzerReceived(m);
-        }
+    webSocket.onmessage = function (m) {
+        buzzerReceived(m);
     };
-    
-    $("#subtitle").html($("#subtitle").html().replace("{username}", username));
+
+    $("#buzzer").click(function() {
+        webSocket.send("buzzer");
+    });
 });
 
 function buzzerReceived(message) {
-    let msgContent = message.data.replace("[Buzzer]","");
     alert(msgContent);
 }
-
-$("#buzzer").click(function() {
-    buzzerSocket.send("buzzer");
-});

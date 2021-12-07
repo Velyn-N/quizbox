@@ -23,10 +23,7 @@ public class BuzzerWebSocket {
             Role roleNum = Role.valueOf(role);
             Participant part = quizApp.getParticipantForNameOrNew(name, roleNum);
             part.setBuzzerSession(session);
-            System.out.println(part);
         } catch (IllegalArgumentException e) {
-            System.out.println("Booooom");
-            e.printStackTrace();
             // Shouldn't happen
         }
     }
@@ -39,9 +36,7 @@ public class BuzzerWebSocket {
     @OnMessage
     public void onMessage(String message, @PathParam("role") String role, @PathParam("name") String name) {
         if (message.equalsIgnoreCase("buzzer")) {
-            String finishedMsg = "[Buzzer]" + name + " buzzered!";
-
-System.out.println(quizApp.getParticipants());
+            String finishedMsg = name + " buzzered!";
 
             quizApp.getParticipants().forEach(part -> 
                 part.getBuzzerSession()

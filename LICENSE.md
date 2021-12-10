@@ -3,7 +3,7 @@
 [Source](https://github.com/philsturgeon/dbad)
 
 > Version 1.2, February 2021
-> Copyright (C) [year] [fullname]
+> Copyright (C) 2021 Velyn-N
  
  Everyone is permitted to copy and distribute verbatim or modified copies of this license document.
 

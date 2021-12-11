@@ -21,3 +21,8 @@ div.container-fluid.mainframe {
 #buzzer {
     min-height: 250px;
 }
+
+.pointChangeButton {
+    border: none;
+    background-color: transparent;
+}

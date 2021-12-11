@@ -23,9 +23,23 @@
         Moderating as <b>{username}</b>.
       </h5>
 
-      GameMaster
+      <div id="pointTarget" class="row"></div>
     </div>
 
+    <div class="d-none">
+      <div id="pointTemplate" class="card col">
+        <div class="card-header">
+          <span class="nameField"></span>
+        </div>
+        <div class="card-body">
+          <button class="minusButton pointChangeButton">-</button>
+          <span class="pointField"></span>
+          <button class="plusButton pointChangeButton">+</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="/lib/pointDisplayScript.js"></script>
     <script src="/lib/gamemaster.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG" crossorigin="anonymous"></script>

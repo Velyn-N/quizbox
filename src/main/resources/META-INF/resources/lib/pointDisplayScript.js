@@ -10,17 +10,20 @@ $(document).ready(function() {
     };
 
     pointSocket.onmessage = function (m) {
-        renderPoints(m);
+        renderPoints(m.data);
     };
 });
 
 function renderPoints(message) {
     let points = JSON.parse(message);
+    $("#pointTarget").html("");
 
-    let template = $("#pointTemplate").clone().attr("id", "pointDisplay-" + username);
-
-    template.find("#nameField").html(username);
-    template.find("#pointField").html("123");
-
-    template.appendTo("#pointTarget");
+    points.forEach(element => {
+        let template = $("#pointTemplate").clone().attr("id", "pointDisplay-" + username);
+        
+        template.find(".nameField").html(element.name);
+        template.find(".pointField").html(element.points);
+    
+        template.appendTo("#pointTarget");
+    });
 }

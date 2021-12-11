@@ -1,5 +1,5 @@
 var username = localStorage.getItem("username");
-var role = "gamemaster";
+var role = localStorage.getItem("role");
 var buzzerSocket;
 
 $(document).ready(function() {
@@ -9,17 +9,55 @@ $(document).ready(function() {
     buzzerSocket = new WebSocket("ws://" + location.host + "/buzzer/" + role + "/"+ username);
 
     buzzerSocket.onopen = function () {
-        console.log("Connected");
+        console.log("BuzzerSocket connected");
     };
 
     buzzerSocket.onmessage = function (m) {
-        if (m.data.startsWith("[Buzzer]")) {
-            buzzerReceived(m);
-        }
+        buzzerReceived(m.data);
+    };
+
+    // Overrides pointSocket.onmessage in pointDisplayScript.js
+    pointSocket.onmessage = function (m) {
+        renderPoints(m.data);
+        registerPointButtons();
     };
 });
 
 function buzzerReceived(message) {
-    let msgContent = message.data.replace("[Buzzer]","");
-    alert(msgContent);
+    alert(message); // Function called to Display received Message
+}
+
+function registerPointButtons() {
+    $(".minusButton").click(function() {
+        decrementPoints(this);
+    })
+
+    $(".plusButton").click(function() {
+        incrementPoints(this);
+    })
+}
+
+function decrementPoints(button) {
+    let currPoints = $(button).parent().find(".pointField").text();
+    let newPoints = +currPoints - 1;
+    
+    changePoints(button, newPoints);
+}
+
+function incrementPoints(button) {
+    let currPoints = $(button).parent().find(".pointField").text();
+    let newPoints = +currPoints + 1;
+
+    changePoints(button, newPoints);
+}
+
+function changePoints(button, points) {
+    let name = $(button).parent().parent().find(".nameField").text();
+
+    if (points >= 0) {
+        $.ajax({
+            type: "POST",
+            url: "/rest/points/" + name + "/" + points
+        });
+    }
 }

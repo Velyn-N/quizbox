@@ -33,7 +33,7 @@ public class QuizApplication {
     }
 
     public void removeIfPresent(String name) {
-        participants.removeIf(part -> part.getName().equalsIgnoreCase(name));
+        participants.removeIf(part -> part == null || part.getName() == null || part.getName().equalsIgnoreCase(name));
     }
 
     public Optional<Participant> getParticipantForName(String name) {

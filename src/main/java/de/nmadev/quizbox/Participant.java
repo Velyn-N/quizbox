@@ -17,7 +17,7 @@ public class Participant {
     private final Role role;
     private Session buzzerSession;
     private Session pointSession;
-    private int points;
+    private int points = 0;
 
     /**
      * Only {@link Role#player}s can have points.

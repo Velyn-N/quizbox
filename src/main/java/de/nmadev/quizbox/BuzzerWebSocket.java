@@ -1,5 +1,7 @@
 package de.nmadev.quizbox;
 
+import java.util.ConcurrentModificationException;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.websocket.OnClose;
@@ -15,7 +17,7 @@ import de.nmadev.quizbox.Participant.Role;
 @ApplicationScoped
 public class BuzzerWebSocket {
     
-    private @Inject QuizApplication quizApp;
+    @Inject QuizApplication quizApp;
     
     @OnOpen
     public void onOpen(Session session, @PathParam("role") String role, @PathParam("name") String name) {
@@ -30,7 +32,11 @@ public class BuzzerWebSocket {
 
     @OnClose
     public void onClose(Session session, @PathParam("role") String role, @PathParam("name") String name) {
-        quizApp.removeIfPresent(name);
+        try {
+            quizApp.removeIfPresent(name);
+        } catch (ConcurrentModificationException e) {
+            // When PointWebSocket already removed the Participant
+        }
     }
 
     @OnMessage
